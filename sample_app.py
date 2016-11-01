@@ -24,30 +24,30 @@ def Initialization():
 @app.route("/authorization")
 def authorization():
 	global APP_ID, APP_SECRET, REDIRECT_URI
-    code = request.args.get('code')
-    api = WeixinAPI(appid=APP_ID,REDIRECT_URI
-                    app_secret=APP_SECRET,
-                    redirect_uri=REDIRECT_URI)
-    auth_info = api.exchange_code_for_access_token(code=code)
-    api = WeixinAPI(access_token=auth_info['access_token'])
-    resp = api.user(openid=auth_info['openid'])
-    return jsonify(resp)
+	code = request.args.get('code')
+	api = WeixinAPI(appid=APP_ID,REDIRECT_URI
+					app_secret=APP_SECRET,
+					redirect_uri=REDIRECT_URI)
+	auth_info = api.exchange_code_for_access_token(code=code)
+	api = WeixinAPI(access_token=auth_info['access_token'])
+	resp = api.user(openid=auth_info['openid'])
+	return jsonify(resp)
 
 
 @app.route("/login")
 def login():
 	global APP_ID, APP_SECRET, REDIRECT_URI
-    api = WeixinAPI(appid=APP_ID,
-                    app_secret=APP_SECRET,
-                    redirect_uri=REDIRECT_URI)
-    redirect_uri = api.get_authorize_login_url(scope=("snsapi_base",))
-    return redirect(redirect_uri)
+	api = WeixinAPI(appid=APP_ID,
+					app_secret=APP_SECRET,
+					redirect_uri=REDIRECT_URI)
+	redirect_uri = api.get_authorize_login_url(scope=("snsapi_base",))
+	return redirect(redirect_uri)
 
 
 @app.route("/")
 def hello():
-    return Markup('<a href="%s">weixin login!</a>') % '/login'
+	return Markup('<a href="%s">weixin login!</a>') % '/login'
 
 if __name__ == "__main__":
 	Initialization()
-    app.run(host='0.0.0.0',debug=True)
+	app.run(host='0.0.0.0',debug=True)
